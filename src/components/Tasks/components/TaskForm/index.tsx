@@ -28,12 +28,13 @@ export function Searchbar() {
       <input type="text" 
       required
       placeholder='Adicione uma nova tarefa'
+      autoComplete='off'
       {...register('task')}
     />
-    <button type='submit'>
-      Criar
-      <PlusCircle size={18}/>
-    </button>
+      <button type='submit'>
+        Criar
+        <PlusCircle size={16}/>
+      </button>
     </TaskForm>
   )
 }

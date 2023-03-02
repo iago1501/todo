@@ -19,11 +19,29 @@ export const TaskSection = styled.section`
     font-size: 0.875rem;
   }
 
-  svg:first-child{
-    color: ${props => props.theme['--blue-500']};
-  }
+  svg {
+    cursor: pointer;
+    border-radius: 4px;    
+    transition: opacity 0.2s color 0.2s background-color 0.2s ;
 
-  svg:last-child{
-    color: ${props => props.theme['--gray-300']};
+    &:first-child{
+      color: ${props => props.theme['--blue-500']};
+      padding: 3px;
+      
+      &:hover{
+        color: ${props => props.theme['--blue-800']};
+        opacity: 0.8;
+      }
+    }
+
+    &:last-child{
+      color: ${props => props.theme['--gray-300']};
+      padding: 5px;
+      
+      &:hover{
+        color: ${props => props.theme['--danger']};
+        background: ${props => props.theme['--gray-400']};
+      }
+    }
   }
 `

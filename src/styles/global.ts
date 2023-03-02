@@ -19,7 +19,9 @@ export const GlobalStyle = createGlobalStyle`
   }
   body, input, textarea, button {
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
+  font-weight: 400;  
+  line-height: 20px;
+  border: 0;
+  outline: none;
 }
 `;

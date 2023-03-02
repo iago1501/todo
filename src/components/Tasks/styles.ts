@@ -33,12 +33,12 @@ export const TasksNav = styled.nav`
       padding: 0.125rem 0.5rem;
       border-radius: 999px;
     }
-  }
-  a:first-child {
-    color: ${props => props.theme['--blue-500']};
-  }
-  a:last-child {
-    color: ${props => props.theme['--purple-500']};
+    &:first-child {
+      color: ${props => props.theme['--blue-500']};
+    }
+    &:last-child {
+      color: ${props => props.theme['--purple-500']};
+    }
   }
 `
 
