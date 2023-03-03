@@ -16,7 +16,6 @@ export const TasksNav = styled.nav`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-top: 2rem;
   margin-bottom: 1.5rem;
 
   a {
@@ -27,13 +26,13 @@ export const TasksNav = styled.nav`
     transition: opacity 0.2s;
 
     &:first-child {
-      color: ${(props) => props.theme["--blue-500"]};      
+      color: ${(props) => props.theme["--blue-500"]};
     }
     &:last-child {
       color: ${(props) => props.theme["--purple-500"]};
     }
-    &:hover{
-        opacity: 0.8;
+    &:hover {
+      opacity: 0.8;
     }
 
     span {
@@ -49,7 +48,7 @@ export const TasksNav = styled.nav`
 
 export const TasksListContainer = styled.main`
   width: 100%;
-  margin: 2.5rem auto;
+  margin: 4rem auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
