@@ -10,7 +10,6 @@ export const TasksContainer = styled.div`
   align-items: center;
   padding: 1rem;
 `
-
 export const TasksNav = styled.nav`
   display: flex;
   flex-direction: row;

@@ -1,4 +1,4 @@
-import Task from "./components/Task";
+import { Task } from "./components/Task";
 import { Searchbar } from "./components/TaskForm";
 import { TasksContainer, TasksListContainer, TasksNav } from "./styles";
 
@@ -14,6 +14,7 @@ export function Tasks() {
         <Task />
         <Task />
         <Task />
+        <Task status='completed'/>
       </TasksListContainer>      
     </TasksContainer>
   )
