@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
 
-interface TaskSectionProps {
+interface TaskContainerProps {
   status: "completed" | "scheduled";
 }
 
-export const TaskSection = styled.section<TaskSectionProps>`
+export const TaskContainer = styled.div<TaskContainerProps>`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -16,15 +16,15 @@ export const TaskSection = styled.section<TaskSectionProps>`
   border: 1px solid ${(props) => props.theme["--gray-400"]};
   color: ${(props) => props.theme["--gray-100"]};
 
+  border-radius: 8px;
+  padding: 1rem;
+
   ${(props) =>
     props.status === "completed" &&
     css`
       text-decoration-line: line-through;
       color: ${(props) => props.theme["--gray-300"]};
     `};
-
-  border-radius: 8px;
-  padding: 1rem;
 
   p {
     flex: 1;

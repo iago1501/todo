@@ -46,12 +46,17 @@ export const TasksNav = styled.nav`
   }
 `;
 
-export const TasksListContainer = styled.main`
+export const TasksMainContainer = styled.main`
   width: 100%;
   margin: 4rem auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.75rem;
 `;
+
+export const TasksListContainer = styled.section`
+  display: flex;
+  flex-direction: column;    
+  gap: 0.75rem;  
+`

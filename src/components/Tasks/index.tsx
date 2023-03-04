@@ -1,21 +1,25 @@
+import { NotFoundTasks } from "./components/NotFoundTasks";
 import { Task } from "./components/Task";
 import { Searchbar } from "./components/TaskForm";
-import { TasksContainer, TasksListContainer, TasksNav } from "./styles";
+import { TasksContainer, TasksListContainer, TasksMainContainer, TasksNav } from "./styles";
 
 export function Tasks() {
   return (
     <TasksContainer>
       <Searchbar />
-      <TasksListContainer>
+      <TasksMainContainer>
         <TasksNav>
           <a>Tarefas criadas <span>5</span></a>
           <a>Concluídas <span>2 de 5</span></a>
-        </TasksNav>        
-        <Task />
-        <Task />
-        <Task />
-        <Task status='completed'/>
-      </TasksListContainer>      
+        </TasksNav>
+        <NotFoundTasks/>        
+        {/* <TasksListContainer>
+          <Task />
+          <Task />
+          <Task />
+          <Task status='completed'/>
+        </TasksListContainer> */}
+      </TasksMainContainer>      
     </TasksContainer>
   )
 }
