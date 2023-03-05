@@ -12,13 +12,13 @@ export function Tasks() {
           <a>Tarefas criadas <span>5</span></a>
           <a>Concluídas <span>2 de 5</span></a>
         </TasksNav>
-        <NotFoundTasks/>        
-        {/* <TasksListContainer>
+        {/* <NotFoundTasks/>         */}
+        <TasksListContainer>
           <Task />
           <Task />
           <Task />
           <Task status='completed'/>
-        </TasksListContainer> */}
+        </TasksListContainer>
       </TasksMainContainer>      
     </TasksContainer>
   )
