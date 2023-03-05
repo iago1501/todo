@@ -13,7 +13,7 @@ interface Task {
 }
 
 interface TasksContextType {
-  tasks: Task[] | null;
+  tasks: Task[];
   createNewTask: (text: string) => void;
   markTaskAsCompleted: (id: string) => void
 }
@@ -26,7 +26,7 @@ interface TasksContextProviderProps {
 
 export function TasksContextProvider({ children }: TasksContextProviderProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const today = new Date();
+  const today = new Date();  
 
   function createNewTask(text: string) {
     const newTask: Task = {
@@ -37,7 +37,7 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
     };
 
     setTasks((prevState) => [...prevState, newTask]);
-  }
+  }  
 
   function markTaskAsCompleted(taskID: string) {
     
