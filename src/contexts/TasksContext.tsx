@@ -1,13 +1,13 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
 enum TaskStatus {
-  completed = 'completed',
-  scheduled = 'scheduled'
+  completed = "completed",
+  scheduled = "scheduled",
 }
-interface Task {
+export interface Task {
   id: string;
   text: string;
-  status: TaskStatus
+  status: TaskStatus;
   createdAt?: string;
   finishedAt?: string;
 }
@@ -15,7 +15,8 @@ interface Task {
 interface TasksContextType {
   tasks: Task[];
   createNewTask: (text: string) => void;
-  markTaskAsCompleted: (id: string) => void
+  markTaskAsCompleted: (id: string) => void;
+  removeTask: (id: string) => void;
 }
 
 export const TasksContext = createContext({} as TasksContextType);
@@ -26,21 +27,26 @@ interface TasksContextProviderProps {
 
 export function TasksContextProvider({ children }: TasksContextProviderProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const today = new Date();  
+  const today = new Date();
 
-  function createNewTask(text: string) {
+  function createNewTask(taskText: string) {
     const newTask: Task = {
       id: String(today.getTime()),
-      text,
+      text: taskText,
       status: TaskStatus.scheduled,
       createdAt: today.toISOString(),
     };
 
     setTasks((prevState) => [...prevState, newTask]);
-  }  
+  }
+
+  function removeTask(taskID: string) {
+    const updatedTasks = tasks.filter((task) => task.id !== taskID);
+
+    setTasks(updatedTasks);
+  }
 
   function markTaskAsCompleted(taskID: string) {
-    
     const updatedTasks = tasks.map((task) =>
       task.id === taskID
         ? {
@@ -53,11 +59,13 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
           }
     );
 
-    setTasks(updatedTasks)
+    setTasks(updatedTasks);
   }
 
   return (
-    <TasksContext.Provider value={{ tasks, createNewTask, markTaskAsCompleted }}>
+    <TasksContext.Provider
+      value={{ tasks, createNewTask, markTaskAsCompleted, removeTask }}
+    >
       {children}
     </TasksContext.Provider>
   );

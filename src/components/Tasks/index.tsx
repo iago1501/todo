@@ -1,4 +1,5 @@
-import { useTasks } from "../../contexts/TasksContext";
+import { useState } from "react";
+import { Task as TaskProps, useTasks } from "../../contexts/TasksContext";
 import { NotFoundTasks } from "./components/NotFoundTasks";
 import { Task } from "./components/Task";
 import { Searchbar } from "./components/TaskForm";
@@ -9,28 +10,39 @@ import {
   TasksNav,
 } from "./styles";
 
+
 export function Tasks() {
   const { tasks } = useTasks();
+  const [tasksToDisplay, setTasksToDisplay] = useState<TaskProps[]>(tasks)
 
-  const createdTasks = tasks.length;
-  const completedTasks = tasks.filter(task => task.status === 'completed').length;
+  const createdTasksQuantity = tasks.length;
+  const completedTasks = tasks.filter(task => task.status === 'completed');
+  const completedTasksQuantity = completedTasks.length
+
+  function handleChangeDisplayedTasks(typeToDisplay: 'scheduled' | 'completed'){
+    if(typeToDisplay === 'scheduled'){
+      return setTasksToDisplay(tasks)
+    }
+    return setTasksToDisplay(completedTasks)
+  }
+
 
   return (
     <TasksContainer>
       <Searchbar />
       <TasksMainContainer>
         <TasksNav>
-          <a>
-            Tarefas criadas <span>{createdTasks}</span>
+          <a onClick={() => handleChangeDisplayedTasks('scheduled')}>
+            Tarefas criadas <span>{createdTasksQuantity}</span>
           </a>
-          <a>
-            Concluídas <span>{completedTasks} de {createdTasks}</span>
+          <a onClick={() => handleChangeDisplayedTasks('completed')}>
+            Concluídas <span>{completedTasksQuantity} de {createdTasksQuantity}</span>
           </a>
         </TasksNav>
-        {tasks.length > 0 ? (
+        {tasksToDisplay.length > 0 ? (
           <TasksListContainer>
-            {tasks.map((task) => (
-              <Task status={task.status} />
+            {tasksToDisplay.map((task) => (
+              <Task key={task.id} {...task}/>
             ))}
           </TasksListContainer>
         ) : (

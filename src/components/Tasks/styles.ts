@@ -58,5 +58,6 @@ export const TasksMainContainer = styled.main`
 export const TasksListContainer = styled.section`
   display: flex;
   flex-direction: column;    
-  gap: 0.75rem;  
+  gap: 0.75rem;
+  width: 100%;
 `

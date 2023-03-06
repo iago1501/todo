@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import { PlusCircle } from 'phosphor-react';
 import { TaskForm } from './styles';
+import { useTasks } from '../../../../contexts/TasksContext';
 
 const taskSchema = zod.object({
   task: zod.string().min(3, { message: 'Conteúdo mínimo de 3 caracteres para uma tarefa' }),
@@ -12,19 +13,22 @@ type taskSchemaData = zod.infer<typeof taskSchema>
 
 export function Searchbar() {
 
-  const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<taskSchemaData>({
+  const {createNewTask} = useTasks()
+
+  const {register, handleSubmit, reset, formState: {errors, isSubmitting}} = useForm<taskSchemaData>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
       task: ''
     }
   })
 
-  function handleFormSubmit(data: taskSchemaData) {
-    console.log(data)
+  function handleCreateNewTask(data: taskSchemaData) {
+    createNewTask(data.task)
+    reset()
   }
 
   return (
-    <TaskForm action="" onSubmit={handleSubmit(handleFormSubmit)}>
+    <TaskForm action="" onSubmit={handleSubmit(handleCreateNewTask)}>
       <input type="text" 
       required
       placeholder='Adicione uma nova tarefa'

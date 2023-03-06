@@ -1,17 +1,23 @@
 import { Check, Circle, Trash } from "phosphor-react";
+import { useTasks } from "../../../../contexts/TasksContext";
 import { TaskContainer } from "./styles";
 
 interface TaskProps {
   status?: 'completed' | 'scheduled';
+  text: string;
+  id: string;
 }
 
-export function Task({status = 'scheduled'}: TaskProps) {
+export function Task({id, status = 'scheduled', text}: TaskProps) {
+
+  const {markTaskAsCompleted, removeTask} = useTasks()
+
   return (
     <TaskContainer status={status}>
-      {status === 'scheduled' && <Circle size={20}/>}
+      {status === 'scheduled' && <Circle size={20} onClick={ () => markTaskAsCompleted(id)}/>}
       {status === 'completed' && <Check size={20}/>}      
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, quia deleniti! Perspiciatis et dolorum maiores omnis quidem rerum fuga quod cum pariatur?</p>
-      <Trash size={24}/>
+      <p>{text}</p>
+      <Trash size={24} onClick={ () => removeTask(id)}/>
     </TaskContainer>
   )
 }
