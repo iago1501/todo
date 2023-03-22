@@ -14,8 +14,8 @@ export function Task({id, status = 'scheduled', text}: TaskProps) {
 
   return (
     <TaskContainer status={status}>
-      {status === 'scheduled' && <Circle size={20} onClick={ () => markTaskAsCompleted(id)}/>}
-      {status === 'completed' && <Check size={20}/>}      
+      {status === 'scheduled' && <Circle alt="Circle" size={20} onClick={ () => markTaskAsCompleted(id)}/>}
+      {status === 'completed' && <Check alt="Check" size={20}/>}      
       <p>{text}</p>
       <Trash size={24} onClick={ () => removeTask(id)}/>
     </TaskContainer>

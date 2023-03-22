@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Task as TaskProps, useTasks } from "../../contexts/TasksContext";
 import { NotFoundTasks } from "./components/NotFoundTasks";
 import { Task } from "./components/Task";
@@ -10,21 +10,35 @@ import {
   TasksNav,
 } from "./styles";
 
+enum TaskTypeToDisplay {
+  scheduled = 'scheduled',
+  completed = 'completed'
+}
 
-export function Tasks() {
+
+export function Tasks() {  
   const { tasks } = useTasks();
   const [tasksToDisplay, setTasksToDisplay] = useState<TaskProps[]>(tasks)
+  const [typeToDisplay, setTypeToDisplay] = useState<TaskTypeToDisplay>(TaskTypeToDisplay.scheduled)
 
-  const createdTasksQuantity = tasks.length;
-  const completedTasks = tasks.filter(task => task.status === 'completed');
-  const completedTasksQuantity = completedTasks.length
+  const createdTasksQuantity = tasks?.length;
+  const completedTasks = tasks?.filter(task => task.status === 'completed');
+  const completedTasksQuantity = completedTasks?.length
 
-  function handleChangeDisplayedTasks(typeToDisplay: 'scheduled' | 'completed'){
+  function handleChangeDisplayedTasks(){
     if(typeToDisplay === 'scheduled'){
       return setTasksToDisplay(tasks)
     }
     return setTasksToDisplay(completedTasks)
   }
+
+  function handleChangeTaskTypeToDisplay(type: TaskTypeToDisplay){
+    setTypeToDisplay(type)
+  }
+
+  useEffect( () => {
+    handleChangeDisplayedTasks()
+  }, [tasks, typeToDisplay])
 
 
   return (
@@ -32,16 +46,16 @@ export function Tasks() {
       <Searchbar />
       <TasksMainContainer>
         <TasksNav>
-          <a onClick={() => handleChangeDisplayedTasks('scheduled')}>
+          <a onClick={() => handleChangeTaskTypeToDisplay(TaskTypeToDisplay.scheduled)}>
             Tarefas criadas <span>{createdTasksQuantity}</span>
           </a>
-          <a onClick={() => handleChangeDisplayedTasks('completed')}>
+          <a onClick={() => handleChangeTaskTypeToDisplay(TaskTypeToDisplay.completed)}>
             Concluídas <span>{completedTasksQuantity} de {createdTasksQuantity}</span>
           </a>
         </TasksNav>
-        {tasksToDisplay.length > 0 ? (
+        {tasksToDisplay?.length > 0 ? (
           <TasksListContainer>
-            {tasksToDisplay.map((task) => (
+            {tasksToDisplay?.map((task) => (
               <Task key={task.id} {...task}/>
             ))}
           </TasksListContainer>
