@@ -1,4 +1,4 @@
-import { render, screen, renderHook, waitFor } from '@testing-library/react';
+import { render, screen, renderHook, waitFor, getByText, fireEvent } from '@testing-library/react';
 import { Tasks } from '../../components/Tasks';
 import { useTasks } from '../../contexts/TasksContext';
 
@@ -17,7 +17,7 @@ const mockedTasks =  {
     "createdAt": "2023-03-06T02:24:54.900Z"
   },
   {
-    "status": TaskStatus.scheduled,
+    "status": TaskStatus.completed,
     "text": "Mocked Task 2",
     "id": "1678069381471",
     "createdAt": "2023-03-06T02:25:54.900Z"
@@ -66,7 +66,7 @@ describe('Tasks Component', () => {
   // May be improved, mockedReturnValueOnce not working for this scenario
   const mockedUseTasks = jest.mocked(useTasks)
 
-  it('It should display list of tasks', async () => {
+  it('It should display list of tasks', () => {
     
     // await waitFor ( () => renderHook(useTasks, {initialProps: mockedTasks}))
 
@@ -78,7 +78,7 @@ describe('Tasks Component', () => {
     expect(screen.getByText("Mocked Task 2")).toBeInTheDocument()
   });
 
-  it('It should display a message of not found tasks', async () => {
+  it('It should display a message of not found tasks', () => {
     
     // await waitFor ( () => renderHook(useTasks, {initialProps: mockedTasks}))    
 
@@ -88,4 +88,21 @@ describe('Tasks Component', () => {
 
     expect(screen.getByText("Você ainda não tem tarefas cadastradas")).toBeInTheDocument()    
   });
+
+  it('It should display list of completed tasks when clicking on concluídas', () => {
+    
+    // await waitFor ( () => renderHook(useTasks, {initialProps: mockedTasks}))
+
+    mockedUseTasks.mockReturnValue(mockedTasks)
+
+    render(<Tasks />)
+
+    const anchor = screen.getByText("Concluídas")
+
+    fireEvent.click(anchor)
+
+    expect(screen.getByText("Mocked Task 2")).toBeInTheDocument()
+    expect(screen.queryByText("Mocked Task 1")).not.toBeInTheDocument()
+  });
+
 })
