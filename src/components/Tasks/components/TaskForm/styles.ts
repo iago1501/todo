@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TaskForm = styled.form`
+export const TaskMainForm = styled.form`
   display: flex;  
   flex-direction: row;  
   margin-top: -3rem;

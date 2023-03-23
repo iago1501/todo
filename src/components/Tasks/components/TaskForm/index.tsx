@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { PlusCircle } from "phosphor-react";
-import { TaskForm } from "./styles";
+import { TaskMainForm } from "./styles";
 import { useTasks } from "../../../../contexts/TasksContext";
 
 const taskSchema = zod.object({
@@ -13,7 +13,7 @@ const taskSchema = zod.object({
 
 type taskSchemaData = zod.infer<typeof taskSchema>;
 
-export function Searchbar() {
+export function TaskForm() {
   const { createNewTask } = useTasks();
 
   const {
@@ -34,7 +34,7 @@ export function Searchbar() {
   }
 
   return (
-    <TaskForm onSubmit={handleSubmit(handleCreateNewTask)}>
+    <TaskMainForm onSubmit={handleSubmit(handleCreateNewTask)}>
       <input
         type="text"
         required
@@ -47,6 +47,6 @@ export function Searchbar() {
         Criar
         <PlusCircle size={16} />
       </button>
-    </TaskForm>
+    </TaskMainForm>
   );
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Task as TaskProps, useTasks } from "../../contexts/TasksContext";
 import { NotFoundTasks } from "./components/NotFoundTasks";
 import { Task } from "./components/Task";
-import { Searchbar } from "./components/Searchbar";
+import { TaskForm } from "./components/TaskForm";
 import {
   TasksContainer,
   TasksListContainer,
@@ -43,7 +43,7 @@ export function Tasks() {
 
   return (
     <TasksContainer>
-      <Searchbar />
+      <TaskForm />
       <TasksMainContainer>
         <TasksNav>
           <a onClick={() => handleChangeTaskTypeToDisplay(TaskTypeToDisplay.scheduled)}>
