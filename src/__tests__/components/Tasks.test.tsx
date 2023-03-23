@@ -1,6 +1,7 @@
 import { render, screen, renderHook, waitFor, getByText, fireEvent } from '@testing-library/react';
 import { Tasks } from '../../components/Tasks';
 import { useTasks } from '../../contexts/TasksContext';
+import { mockedCompletedTask, mockedScheduledTask } from '../__mocks__/task';
 
 jest.mock("../../contexts/TasksContext")
 
@@ -10,27 +11,16 @@ enum TaskStatus {
 }
 
 const mockedTasks =  {
-  tasks: [{
-    "status": TaskStatus.scheduled,
-    "text": "Mocked Task 1",
-    "id": "1678069381481",
-    "createdAt": "2023-03-06T02:24:54.900Z"
-  },
-  {
-    "status": TaskStatus.completed,
-    "text": "Mocked Task 2",
-    "id": "1678069381471",
-    "createdAt": "2023-03-06T02:25:54.900Z"
-  }],
+  tasks: [...mockedCompletedTask, ...mockedScheduledTask],
   createNewTask: jest.fn(),
-  markTaskAsCompleted: jest.fn(),
+  changeTaskStatus: jest.fn(),
   removeTask: jest.fn()
 }
 
 const mockedEmptyTasks =  {
   tasks: [],
   createNewTask: jest.fn(),
-  markTaskAsCompleted: jest.fn(),
+  changeTaskStatus: jest.fn(),
   removeTask: jest.fn()
 }
 
@@ -74,8 +64,8 @@ describe('Tasks Component', () => {
 
     render(<Tasks />)
 
-    expect(screen.getByText("Mocked Task 1")).toBeInTheDocument()
-    expect(screen.getByText("Mocked Task 2")).toBeInTheDocument()
+    expect(screen.getByText("Scheduled Task 1")).toBeInTheDocument()
+    expect(screen.getByText("Completed Task 1")).toBeInTheDocument()
   });
 
   it('It should display a message of not found tasks', () => {
@@ -101,8 +91,8 @@ describe('Tasks Component', () => {
 
     fireEvent.click(anchor)
 
-    expect(screen.getByText("Mocked Task 2")).toBeInTheDocument()
-    expect(screen.queryByText("Mocked Task 1")).not.toBeInTheDocument()
+    expect(screen.getByText("Completed Task 2")).toBeInTheDocument()
+    expect(screen.queryByText("Scheduled Task 1")).not.toBeInTheDocument()
   });
 
 })

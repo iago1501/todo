@@ -1,9 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
-enum TaskStatus {
-  completed = "completed",
-  scheduled = "scheduled",
-}
+type TaskStatus = 'completed' | 'scheduled'
 export interface Task {
   id: string;
   text: string;
@@ -12,18 +9,24 @@ export interface Task {
   finishedAt?: string;
 }
 
+interface TasksContextProviderProps {
+  children: ReactNode;
+}
+
+type changeTaskStatusProps = {
+  taskID: string;
+  status: TaskStatus;
+}
+
 interface TasksContextType {
   tasks: Task[];
   createNewTask: (text: string) => void;
-  markTaskAsCompleted: (id: string) => void;
+  changeTaskStatus: ({taskID, status}: changeTaskStatusProps) => void;
   removeTask: (id: string) => void;
 }
 
 export const TasksContext = createContext({} as TasksContextType);
 
-interface TasksContextProviderProps {
-  children: ReactNode;
-}
 
 export function TasksContextProvider({ children }: TasksContextProviderProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -33,7 +36,7 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
     const newTask: Task = {
       id: String(today.getTime()),
       text: taskText,
-      status: TaskStatus.scheduled,
+      status: "scheduled",
       createdAt: today.toISOString(),
     };
 
@@ -46,13 +49,13 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
     setTasks(updatedTasks);
   }
 
-  function markTaskAsCompleted(taskID: string) {
+  function changeTaskStatus({taskID, status}: changeTaskStatusProps) {
     const updatedTasks = tasks.map((task) =>
       task.id === taskID
         ? {
             ...task,
             finishedAt: String(today.getTime()),
-            status: TaskStatus.completed,
+            status: status,
           }
         : {
             ...task,
@@ -64,7 +67,7 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
 
   return (
     <TasksContext.Provider
-      value={{ tasks, createNewTask, markTaskAsCompleted, removeTask }}
+      value={{ tasks, createNewTask, changeTaskStatus, removeTask }}
     >
       {children}
     </TasksContext.Provider>
