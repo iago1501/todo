@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Task as TaskProps, useTasks } from "../../contexts/TasksContext";
 import { NotFoundTasks } from "./components/NotFoundTasks";
 import { Task } from "./components/Task";
-import { Searchbar } from "./components/TaskForm";
+import { Searchbar } from "./components/Searchbar";
 import {
   TasksContainer,
   TasksListContainer,
