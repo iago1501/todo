@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { api } from "../services/api";
 
 type TaskStatus = 'completed' | 'scheduled'
 export interface Task {
@@ -31,6 +32,17 @@ export const TasksContext = createContext({} as TasksContextType);
 export function TasksContextProvider({ children }: TasksContextProviderProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const today = new Date();
+
+  useEffect(() => {
+    
+    async function setTasksValues(){
+      const response = await api.get<Task[]>("/tasks")
+      const responseTasks = response.data
+      setTasks(responseTasks)
+    }
+
+    setTasksValues()
+  }, [])
 
   function createNewTask(taskText: string) {
     const newTask: Task = {
