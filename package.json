@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "jest --watch",
-    "server": "json-server --watch server.json --port 3333"
+    "server": "json-server --watch server.json --port 3333 -d 5000"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.11",
@@ -17,6 +17,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.2",
+    "react-query": "^3.39.3",
     "styled-components": "^5.3.6",
     "zod": "^3.20.6"
   },

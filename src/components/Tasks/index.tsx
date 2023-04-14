@@ -53,15 +53,15 @@ export function Tasks() {
             Concluídas <span>{completedTasksQuantity} de {createdTasksQuantity}</span>
           </a>
         </TasksNav>
-        {tasksToDisplay?.length > 0 ? (
-          <TasksListContainer>
-            {tasksToDisplay?.map((task) => (
-              <Task key={task.id} {...task}/>
-            ))}
-          </TasksListContainer>
-        ) : (
-          <NotFoundTasks />
-        )}
+          {tasksToDisplay?.length > 0 ? (
+            <TasksListContainer>
+              {tasksToDisplay?.map((task) => (
+                <Task key={task.id} {...task}/>
+              ))}
+            </TasksListContainer>
+          ) : (
+            <NotFoundTasks />
+          )}
       </TasksMainContainer>
     </TasksContainer>
   );

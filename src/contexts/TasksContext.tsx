@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, Suspense, useContext, useEffect, useState } from "react";
 import { api } from "../services/api";
+import { useQuery } from "react-query";
 
 type TaskStatus = 'completed' | 'scheduled'
 export interface Task {
@@ -33,16 +34,18 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const today = new Date();
 
-  useEffect(() => {
-    
-    async function setTasksValues(){
-      const response = await api.get<Task[]>("/tasks")
-      const responseTasks = response.data
-      setTasks(responseTasks)
-    }
+  const { data:tasksData } = useQuery<Task[], Error>({
+      queryKey: "todos",
+      queryFn: () => api.get("/tasks").then((res) => res.data),
+      suspense: true
+    } 
+  );
 
-    setTasksValues()
-  }, [])
+  useEffect(() => {
+    if (tasksData) {
+      setTasks(tasksData);
+    }
+  }, [tasksData])  
 
   function createNewTask(taskText: string) {
     const newTask: Task = {
@@ -52,16 +55,21 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
       createdAt: today.toISOString(),
     };
 
+    api.post("/tasks", newTask)
+
     setTasks((prevState) => [...prevState, newTask]);
   }
 
   function removeTask(taskID: string) {
     const updatedTasks = tasks.filter((task) => task.id !== taskID);
 
+    api.delete(`/tasks/${taskID}`)
+
     setTasks(updatedTasks);
   }
 
   function changeTaskStatus({taskID, status}: changeTaskStatusProps) {
+    
     const updatedTasks = tasks.map((task) =>
       task.id === taskID
         ? {
@@ -73,6 +81,8 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
             ...task,
           }
     );
+
+    // api.put(`/tasks/${taskID}`, )
 
     setTasks(updatedTasks);
   }
