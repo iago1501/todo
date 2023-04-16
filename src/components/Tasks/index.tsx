@@ -47,7 +47,7 @@ export function Tasks() {
       <TasksMainContainer>
         <TasksNav>
           <a onClick={() => handleChangeTaskTypeToDisplay(TaskTypeToDisplay.scheduled)}>
-            Tarefas criadas <span>{tasksQuantity}</span>
+            Tarefas criadas <span>{createdTasksQuantity}</span>
           </a>
           <a onClick={() => handleChangeTaskTypeToDisplay(TaskTypeToDisplay.completed)}>
             Concluídas <span>{completedTasksQuantity} de {createdTasksQuantity}</span>
