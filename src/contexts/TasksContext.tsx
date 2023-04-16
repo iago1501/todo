@@ -14,7 +14,6 @@ export interface Task {
 interface TasksContextProviderProps {
   children: ReactNode;
 }
-
 type changeTaskStatusProps = {
   taskID: string;
   status: TaskStatus;
@@ -25,27 +24,43 @@ interface TasksContextType {
   createNewTask: (text: string) => void;
   changeTaskStatus: ({taskID, status}: changeTaskStatusProps) => void;
   removeTask: (id: string) => void;
+  tasksQuantity: number;
 }
+
+interface TasksResponse {
+  tasks: Task[],
+  count: number
+}
+
+type Tasks = {
+ tasksList: Task[],
+ tasksQuantity: number,
+}
+
 
 export const TasksContext = createContext({} as TasksContextType);
 
 
 export function TasksContextProvider({ children }: TasksContextProviderProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasksQuantity, setTasksQuantity] = useState(0);
   const today = new Date();
 
-  const { data:tasksData } = useQuery<Task[], Error>({
-      queryKey: "todos",
-      queryFn: () => api.get("/tasks").then((res) => res.data),
-      suspense: true
-    } 
-  );
+  const { data: tasksResponse } = useQuery<TasksResponse, Error>({
+    queryKey: "todos",
+    queryFn: () =>
+      api.get("/tasks?_limit=5&_page=1").then((res) =>
+        ({ tasks: res.data, count: res.headers["x-total-count"] })
+      ),
+    suspense: true,
+  });
 
   useEffect(() => {
-    if (tasksData) {
-      setTasks(tasksData);
+    if (tasksResponse) {
+      setTasks(tasksResponse.tasks);
+      setTasksQuantity(tasksResponse.count)
     }
-  }, [tasksData])  
+  }, [tasksResponse])
 
   function createNewTask(taskText: string) {
     const newTask: Task = {
@@ -89,7 +104,7 @@ export function TasksContextProvider({ children }: TasksContextProviderProps) {
 
   return (
     <TasksContext.Provider
-      value={{ tasks, createNewTask, changeTaskStatus, removeTask }}
+      value={{ tasks, tasksQuantity, createNewTask, changeTaskStatus, removeTask }}
     >
       {children}
     </TasksContext.Provider>

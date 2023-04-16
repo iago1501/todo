@@ -17,11 +17,11 @@ enum TaskTypeToDisplay {
 
 
 export function Tasks() {  
-  const { tasks } = useTasks();
+  const { tasks, tasksQuantity } = useTasks();
   const [tasksToDisplay, setTasksToDisplay] = useState<TaskProps[]>(tasks)
   const [typeToDisplay, setTypeToDisplay] = useState<TaskTypeToDisplay>(TaskTypeToDisplay.scheduled)
 
-  const createdTasksQuantity = tasks?.length;
+  const createdTasksQuantity = tasksQuantity;
   const completedTasks = tasks?.filter(task => task.status === 'completed');
   const completedTasksQuantity = completedTasks?.length
 
@@ -47,7 +47,7 @@ export function Tasks() {
       <TasksMainContainer>
         <TasksNav>
           <a onClick={() => handleChangeTaskTypeToDisplay(TaskTypeToDisplay.scheduled)}>
-            Tarefas criadas <span>{createdTasksQuantity}</span>
+            Tarefas criadas <span>{tasksQuantity}</span>
           </a>
           <a onClick={() => handleChangeTaskTypeToDisplay(TaskTypeToDisplay.completed)}>
             Concluídas <span>{completedTasksQuantity} de {createdTasksQuantity}</span>
